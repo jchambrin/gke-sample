@@ -1,0 +1,31 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: webapp
+  namespace: default
+spec:
+  selector:
+    matchLabels:
+      run: webapp
+  replicas: 1
+  template:
+    metadata:
+      annotations:
+        rollme: "1"
+      labels:
+        run: webapp
+    spec:
+      containers:
+        - name: webapp
+          imagePullPolicy: IfNotPresent
+          image: jchambrin/hello-world:latest
+          resources:
+            requests:
+              memory: "5Mi"
+              cpu: "25m"
+            limits:
+              memory: "50Mi"
+              cpu: "50m"
+          ports:
+            - containerPort: 80
+              protocol: TCP
